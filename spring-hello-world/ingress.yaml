@@ -1,0 +1,18 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: spring-hello-world-ingress
+  annotations:
+    spec.ingressClassName: "traefik"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /spring
+        pathType: Prefix
+        backend:
+          service:
+            name: spring-hello-world-service
+            port:
+              number: 8080

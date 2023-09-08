@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: spring-hello-world
+  name: spring-hello-world
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-hello-world
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: spring-hello-world
+    spec:
+      containers:
+      - image: jacflesher/spring-hello-world:v0.1
+        name: spring-hello-world
+        resources: {}
+status: {}
