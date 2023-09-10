@@ -1,18 +1,30 @@
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
 metadata:
-  name: spring-hello-world-ingress
-  annotations:
-    spec.ingressClassName: "traefik"
+  name: spring-hello-world-stripprefix-middleware
+  namespace: apps
+
 spec:
-  rules:
-  - http:
-      paths:
-      - path: /spring
-        pathType: Prefix
-        backend:
-          service:
-            name: spring-hello-world-service
-            port:
-              number: 8080
+  stripPrefix:
+    prefixes:
+      - /spring
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: spring-hello-world-ingressroute
+
+spec:
+  entryPoints:
+    - web
+  routes:
+  #- match: Host(`bar.com`) && PathPrefix(`/stripit`)
+  - match: PathPrefix(`/spring`)
+    kind: Rule
+    services:
+    - name: spring-hello-world-service
+      port: 80
+    middlewares:
+    - name: spring-hello-world-stripprefix-middleware
+      namespace: apps
