@@ -1,0 +1,31 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: apps
+resources:
+  - clusterrolebinding-traefik-default.yaml
+  - clusterrole-traefik-default.yaml
+  - customresourcedefinition-ingressroutes.traefik.containo.us.yaml
+  - customresourcedefinition-ingressroutes.traefik.io.yaml
+  - customresourcedefinition-ingressroutetcps.traefik.containo.us.yaml
+  - customresourcedefinition-ingressroutetcps.traefik.io.yaml
+  - customresourcedefinition-ingressrouteudps.traefik.containo.us.yaml
+  - customresourcedefinition-ingressrouteudps.traefik.io.yaml
+  - customresourcedefinition-middlewares.traefik.containo.us.yaml
+  - customresourcedefinition-middlewares.traefik.io.yaml
+  - customresourcedefinition-middlewaretcps.traefik.containo.us.yaml
+  - customresourcedefinition-middlewaretcps.traefik.io.yaml
+  - customresourcedefinition-serverstransports.traefik.containo.us.yaml
+  - customresourcedefinition-serverstransports.traefik.io.yaml
+  - customresourcedefinition-serverstransporttcps.traefik.io.yaml
+  - customresourcedefinition-tlsoptions.traefik.containo.us.yaml
+  - customresourcedefinition-tlsoptions.traefik.io.yaml
+  - customresourcedefinition-tlsstores.traefik.containo.us.yaml
+  - customresourcedefinition-tlsstores.traefik.io.yaml
+  - customresourcedefinition-traefikservices.traefik.containo.us.yaml
+  - customresourcedefinition-traefikservices.traefik.io.yaml
+  - deployment-traefik.yaml
+  - ingressclass-traefik.yaml
+  - ingressroute-traefik-dashboard.yaml
+  - serviceaccount-traefik.yaml
+  - service-traefik.yaml
