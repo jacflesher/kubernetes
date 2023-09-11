@@ -3,6 +3,11 @@ data:
   index.html: |
     <html>
     <head>
+    <style>
+      body { 
+            background-color: orange;
+          }
+    </style>
       <title>Hello World!</title>
     </head>
     <body>Hello World!</body>
