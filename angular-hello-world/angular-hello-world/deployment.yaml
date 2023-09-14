@@ -3,23 +3,22 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    app: spring-hello-world-app
-  name: spring-hello-world-app
+    app: angular-hello-world-deployment
+  name: angular-hello-world-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: spring-hello-world-app
+      app: angular-hello-world-deployment
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: spring-hello-world-app
+        app: angular-hello-world-deployment
     spec:
       containers:
-      - image: jacflesher/spring-hello-world:v0.1
-        name: spring-hello-world
-        imagePullPolicy: Always
+      - image: jacflesher/angular-hello-world:v0.1
+        name: angular-hello-world
         resources: {}
 status: {}

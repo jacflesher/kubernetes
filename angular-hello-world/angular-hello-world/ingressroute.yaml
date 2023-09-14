@@ -1,0 +1,30 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: angular-hello-world-stripprefix-middleware
+  namespace: apps
+
+spec:
+  stripPrefix:
+    prefixes:
+      - /angular
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: angular-hello-world-ingressroute
+
+spec:
+  entryPoints:
+    - web
+  routes:
+  #- match: Host(`bar.com`) && PathPrefix(`/stripit`)
+  - match: PathPrefix(`/angular`)
+    kind: Rule
+    services:
+    - name: angular-hello-world-service
+      port: 80
+    middlewares:
+    - name: angular-hello-world-stripprefix-middleware
+      namespace: apps
