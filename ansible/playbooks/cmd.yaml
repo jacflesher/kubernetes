@@ -1,7 +1,16 @@
 - hosts: "*"
   become: yes
   tasks:
-    - name: cmd
-      ansible.builtin.shell: w > /tmp/w_test.txt; pwd >> /tmp/w_test.txt
+    - name: apt update
+      ansible.builtin.shell: sudo apt update >> /tmp/ansible.log
       args:
         executable: /bin/bash
+    - name: log file separator
+      ansible.builtin.shell: echo '==================================================================' >> /tmp/ansible.log
+      args:
+        executable: /bin/bash
+    - name: apt install packages
+      ansible.builtin.shell: sudo apt install vim sudo net-tools git docker.io curl rsync apt-transport-https ca-certificates gnupg ansible sshpass bind9-utils -y >> /tmp/ansible.log
+      args:
+        executable: /bin/bash
+
