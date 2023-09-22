@@ -1,0 +1,4 @@
+ansible -i ./inventory/hosts debian -m ping --user jflesher --ask-pass
+
+ansible-playbook ./playbooks/apt.yml --user jflesher --ask-pass --ask-become-pass -i ./inventory/hosts
+
