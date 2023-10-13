@@ -1,0 +1,7 @@
+- hosts: "all"
+  become: yes
+  tasks:
+    - name: install snap packages
+      ansible.builtin.shell: snap install yq
+      args:
+        executable: /bin/bash
