@@ -1,6 +1,11 @@
 #!/bin/bash
 set +x
 
+if [[ "$(hostname)" != *master* ]]; then
+	echo "This script must be run from the kubernetes master node... Exiting."
+	exit 1
+fi
+	
 if [[ ! $(which k3s) ]]; then
 	echo "Installing k3s on master node..."
 	curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--disable=traefik" sh -

@@ -1,0 +1,25 @@
+- hosts: all
+  become: yes
+
+  tasks:
+    - name: apt
+      apt:
+        update_cache: yes
+        upgrade: 'yes'
+
+    - name: Install a list of packages
+      ansible.builtin.apt:
+        pkg:
+        - vim
+        - sudo
+        - net-tools
+        - git
+        - docker.io
+        - curl
+        - rsync
+        - apt-transport-https
+        - ca-certificates
+        - gnupg
+        - ansible
+        - sshpass
+        - bind9-utils

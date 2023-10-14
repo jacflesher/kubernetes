@@ -6,4 +6,5 @@ resources:
   - deployment.yaml
   - secret.yaml
   - issuer.yaml
-  #- certificate.yaml
+  # - rbac.yaml
+  #- cert-manager.crds.yaml

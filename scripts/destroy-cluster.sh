@@ -1,6 +1,10 @@
 #!/bin/bash
 set +x
 
+if [[ "$(hostname)" != *master* ]]; then
+	echo "This script must be run from the kubernetes master node... Exiting."
+	exit 1
+fi
 
 if [[ $(which k3s) ]]; then
 	echo "Uninstalling on master host..."
