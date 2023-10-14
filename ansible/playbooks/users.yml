@@ -1,0 +1,44 @@
+- hosts: "*"
+  become: yes
+  tasks:
+    - name: Create user bryleigh
+      ansible.builtin.user:
+        name: bryleigh
+        home: /home/bryleigh
+        shell: /bin/bash
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: /home/bryleigh/.ssh/id_rsa
+    - name: Create user liam
+      ansible.builtin.user:
+        name: liam
+        home: /home/liam
+        shell: /bin/bash
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: /home/liam/.ssh/id_rsa
+    - name: Create user jack
+      ansible.builtin.user:
+        name: jack
+        home: /home/jack
+        shell: /bin/bash
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: /home/jack/.ssh/id_rsa
+    - name: Create user isabella
+      ansible.builtin.user:
+        name: isabella
+        home: /home/isabella
+        shell: /bin/bash
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: /home/isabella/.ssh/id_rsa
+
+
+
+#remove user
+#- name: Remove the user 'johnd'
+#  ansible.builtin.user:
+#    name: johnd
+#    state: absent
+#    remove: yes

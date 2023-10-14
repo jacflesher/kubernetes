@@ -2,3 +2,4 @@ ansible -i ./inventory/hosts debian -m ping --user jflesher --ask-pass
 
 ansible-playbook ./playbooks/apt.yaml --user jflesher --ask-pass --ask-become-pass -i ./inventory/hosts
 
+ansible-playbook playbooks/apt.yml -i ./inventory/cluster/hosts.ini --limit all --ask-pass --ask-become-pass
