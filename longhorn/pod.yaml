@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: home-assistant-volume
-  namespace: longhorn-system
+  namespace: home-assistant
 spec:
   containers:
   - name: home-assistant-0
