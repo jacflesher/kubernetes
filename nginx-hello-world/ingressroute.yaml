@@ -23,7 +23,7 @@ spec:
   - match: PathPrefix(`/nginx`)
     kind: Rule
     services:
-    - name: nginx-hello-world-service
+    - name: nginx-hello-world-deployment-service
       port: 80
     middlewares:
     - name: nginx-hello-world-stripprefix-middleware
