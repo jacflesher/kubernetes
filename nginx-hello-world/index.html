@@ -1,7 +1,35 @@
 <html>
 <head>
-  <title>Hello World!</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+  <title>Flesher Family Homepage</title>
+<style>
+body{
+	background: #333;
+}
+#h1container {
+	background: #666;
+	width: 35%;
+	border-radius:10px;
+	margin: 80px auto;
+	padding: 25px 0 25px 0;
+}
+h1 {
+	width: 70%;
+	text-align: center;
+	font-family: Tahoma, Arial, sans-serif;
+	font-size: xx-large;
+	color: #999;
+	margin: 0 auto;
+}
+a {
+	text-decoration:none;
+}
+</style>
 </head>
-<body>Hello World!</body>
+<body>
+	<a href="http://192.168.0.1:80"><div id="h1container"><h1>Router</h1></div></a>
+	<a href="http://proxmox.flesher.local:8006"><div id="h1container"><h1>Proxmox</h1></div></a>
+	<a href="http://192.168.0.240:8123"><div id="h1container"><h1>HomeAssistant</h1></div></a>
+	<a href="http://192.168.0.240:8081"><div id="h1container"><h1>KeyCloak</h1></div></a>
+</body>
 </html>
