@@ -8,12 +8,18 @@ if [ ! "${1}" ]; then
   exit 1
 fi
 
+DIR="$(pwd)"
 
-# Create new namespace if not exist
-kubectl create namespace ns-${1}
-
-# Build rbac.yaml for new role, service account, and secret
-echo "---
+# Build rbac.yaml for new namespace, role, service account, and secret
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ns-${1}
+  labels:
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/enforce: restricted
+---
 kind: ServiceAccount
 apiVersion: v1
 metadata:
@@ -27,11 +33,11 @@ metadata:
   namespace: ns-${1}
 rules:
   - apiGroups:
-      - \"*\"
+      - "*"
     resources:
-      - \"*\"
+      - "*"
     verbs:
-      - \"*\"
+      - "*"
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -54,22 +60,21 @@ metadata:
   namespace: ns-${1}
   annotations:
     kubernetes.io/service-account.name: sa-${1}
-type: kubernetes.io/service-account-token" > rbac.yaml
-
-
-# Apply changes from rbac.yaml files
-kubectl apply -f rbac.yaml
+type: kubernetes.io/service-account-token
+EOF
 
 
 # build new ~/.kube/config file
-echo 
-echo "$(tput setaf 196)Save this file to ~/.kube/config$(tput sgr0)"
-echo
-echo "---
-apiVersion: v1
+# echo 
+# echo "$(tput setaf 196)Save this file to ~/.kube/config$(tput sgr0)"
+# echo
+
+
+ 
+echo "apiVersion: v1
 clusters:
 - cluster:
-    certificate-authority-data: $(cat ca.dat)
+    certificate-authority-data: $(cat "${DIR}/ca.dat")
     server: https://192.168.0.240:6443
   name: default
 contexts:
@@ -85,7 +90,6 @@ users:
 - name: sa-${1}
   user:
     token: $(kubectl get secret secret-${1} -o jsonpath={.data.token} --namespace ns-${1} | base64 -d)" | yq
-
 
 
 #kubectl config set-credentials "sa-${1}" --token="$(kubectl get secret \"${1}\" -o jsonpath={.data.token} --namespace \"${1}\" | base64 -d)"
