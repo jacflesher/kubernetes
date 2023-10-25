@@ -1,4 +1,5 @@
-FROM openjdk:17-jdk-alpine
+FROM eclipse-temurin:17-jdk-ubi9-minimal
+#FROM openjdk:17-jdk-alpine
 EXPOSE 8080
 ARG JAR_FILE=./spring-hello-world.jar
 ADD ${JAR_FILE} app.jar
