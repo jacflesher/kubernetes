@@ -16,6 +16,7 @@ spec:
       labels:
         app: home-assistant
     spec:
+      nodeName: k3s-master-240.flesher.local
       hostNetwork: true
       serviceAccountName: home-assistant-sa
       containers:
@@ -56,13 +57,13 @@ spec:
             initialDelaySeconds: 3
             failureThreshold: 30
           imagePullPolicy: IfNotPresent
-        volumeMounts:
-          - name: ha-config-root
-            mountPath: /config
+          volumeMounts:
+            - name: ha-config-root
+              mountPath: /config
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       hostname: home-assistant
       volumes:
         - name: ha-config-root
           persistentVolumeClaim:
-            claimName: home-assistant-config-root
+            claimName: home-assistant-claim

@@ -1,12 +1,43 @@
 ---
-kind: PersistentVolumeClaim
+kind: PersistentVolume
 apiVersion: v1
 metadata:
   namespace: home-assistant
-  name: home-assistant-config-root
+  name: home-assistant-volume
+  labels:
+    type: local
 spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/home-assistant-config-root"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: home-assistant
+  name: home-assistant-claim
+spec:
+  storageClassName: manual
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
+# ---
+# kind: PersistentVolumeClaim
+# apiVersion: v1
+# metadata:
+#   namespace: home-assistant
+#   name: home-assistant-config-root
+# spec:
+#   hostPath:
+#     path: /mnt/home-assistant-config-root
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 1Gi
