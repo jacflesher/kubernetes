@@ -4954,7 +4954,7 @@ spec:
     app.kubernetes.io/name: traefik
     app.kubernetes.io/instance: traefik-default
   ports:
-  - port: 80
+  - port: 82
     name: "web"
     targetPort: web
     protocol: TCP
