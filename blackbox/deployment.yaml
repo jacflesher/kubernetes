@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: blackbox-exporter
+  name: blackbox-exporter
+  namespace: blackbox
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blackbox-exporter
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: blackbox-exporter
+    spec:
+      containers:
+      - image: quay.io/prometheus/blackbox-exporter:latest
+        name: blackbox-exporter
+        resources: {}
+status: {}
