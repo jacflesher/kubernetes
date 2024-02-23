@@ -10,8 +10,6 @@ fi
 
 DIR="$(pwd)"
 
-cat ~/.kube/config | grep certificate-authority-data | awk -F' ' '{print $2}' > ca.dat
-
 # Build rbac.yaml for new namespace, role, service account, and secret
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -19,8 +17,10 @@ kind: Namespace
 metadata:
   name: ns-${1}
   labels:
-    pod-security.kubernetes.io/audit: restricted
-    pod-security.kubernetes.io/enforce: restricted
+    #pod-security.kubernetes.io/audit: restricted
+    #pod-security.kubernetes.io/enforce: restricted
+    #pod-security.kubernetes.io/audit: baseline
+    #pod-security.kubernetes.io/enforce: baseline
 ---
 kind: ServiceAccount
 apiVersion: v1
@@ -65,26 +65,20 @@ metadata:
 type: kubernetes.io/service-account-token
 EOF
 
-yq <<EOF
----
-apiVersion: v1
-clusters:
-- cluster:
-    certificate-authority-data: $(cat "${DIR}/ca.dat")
-    server: https://192.168.0.240:6443
-  name: default
-contexts:
-- context:
-    cluster: default
-    namespace: ns-${1}
-    user: sa-${1}
-  name: default
-current-context: default
-kind: Config
-preferences: {}
-users:
-- name: sa-${1}
-  user:
-    token: $(kubectl get secret secret-${1} -o jsonpath={.data.token} --namespace ns-${1} | base64 -d)
-EOF
 
+# build new ~/.kube/config file
+# echo 
+# echo "$(tput setaf 196)Save this file to ~/.kube/config$(tput sgr0)"
+# echo
+
+
+ 
+echo
+echo
+echo
+echo "Change to user:"
+echo "sudo kubectl config set-credentials \"sa-${1}\" --token \"$(kubectl get secret secret-${1} -o jsonpath={.data.token} --namespace ns-${1} | base64 -d)\""
+echo
+echo "Change namespace and user:"
+echo "sudo kubectl config set-context default --cluster default --namespace ns-${1}"
+echo "sudo kubectl config set-context minikube --cluster minikube --namespace ns-${1}"
