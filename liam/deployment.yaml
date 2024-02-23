@@ -1,0 +1,48 @@
+#---
+#apiVersion: apps/v1
+#kind: Deployment
+#metadata:
+#  name: www-flesher-app
+#spec:
+#  replicas: 1
+#  selector:
+#    matchLabels:
+#      app: www-flesher-app
+#  template:
+#    metadata:
+#      labels:
+#        app: www-flesher-app
+#    spec:
+#      containers:
+#      - name: www-flesher-app
+#        image: nginxdemos/hello:plain-text
+#        ports:
+#        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: ns-liam
+  name: www-flesher-app-liam
+spec:
+  selector:
+    matchLabels:
+      app: www-flesher-app-liam
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: www-flesher-app-liam
+    spec:
+      containers:
+      - name: www-flesher-app-liam
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: www-flesher-app-liam
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: www-flesher-app-liam
+        configMap:
+          name: www-flesher-app-liam-configmap

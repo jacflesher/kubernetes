@@ -1,5 +1,5 @@
 #!/bin/bash
-set +x
+set -x
 
 
 # Set VAR
@@ -9,8 +9,6 @@ if [ ! "${1}" ]; then
 fi
 
 DIR="$(pwd)"
-
-cat ~/.kube/config | grep certificate-authority-data | awk -F' ' '{print $2}' > ca.dat
 
 # Build rbac.yaml for new namespace, role, service account, and secret
 cat <<EOF | kubectl apply -f -
@@ -65,9 +63,15 @@ metadata:
 type: kubernetes.io/service-account-token
 EOF
 
-yq <<EOF
----
-apiVersion: v1
+
+# build new ~/.kube/config file
+# echo 
+# echo "$(tput setaf 196)Save this file to ~/.kube/config$(tput sgr0)"
+# echo
+
+
+ 
+echo "apiVersion: v1
 clusters:
 - cluster:
     certificate-authority-data: $(cat "${DIR}/ca.dat")
@@ -85,6 +89,8 @@ preferences: {}
 users:
 - name: sa-${1}
   user:
-    token: $(kubectl get secret secret-${1} -o jsonpath={.data.token} --namespace ns-${1} | base64 -d)
-EOF
+    token: $(kubectl get secret secret-${1} -o jsonpath={.data.token} --namespace ns-${1} | base64 -d)" | yq
+
+
+sudo kubectl config set-credentials "sa-${1}" --token="$(kubectl get secret secret-${1} -o jsonpath={.data.token} --namespace ns-${1} | base64 -d)"
 

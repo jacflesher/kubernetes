@@ -1,0 +1,24 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: www-flesher-app-liam-ingress
+  namespace: ns-liam
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /liam
+spec:
+  tls:
+  - hosts:
+    - "*.flesher.app"
+    secretName: www-flesher-app-liam-tls
+  rules:
+  - host: "*.flesher.app"
+    http:
+      paths:
+      - path: /liam
+        pathType: Prefix
+        backend:
+          service:
+            name: www-flesher-app-liam
+            port:
+              number: 8087

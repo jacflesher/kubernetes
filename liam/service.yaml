@@ -1,0 +1,33 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: www-flesher-app-liam
+  namespace: ns-liam
+spec:
+  allocateLoadBalancerNodePorts: true
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: http
+    port: 8087
+    protocol: TCP
+    targetPort: 80
+  - name: https
+    port: 44387
+    protocol: TCP
+    targetPort: 443
+  selector:
+    app: www-flesher-app-liam
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - ip: 192.168.0.240
+    - ip: 192.168.0.241
+    - ip: 192.168.0.242
+    - ip: 192.168.0.243
