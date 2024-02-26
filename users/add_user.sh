@@ -4,11 +4,10 @@ set +x
 
 # Set VAR
 if [ ! "${1}" ]; then
-  echo "Please pass usernname as single arg... Exiting."
+  echo "Please pass new user as single arg... Exiting."
   exit 1
 fi
 
-DIR="$(pwd)"
 
 # Build rbac.yaml for new namespace, role, service account, and secret
 cat <<EOF | kubectl apply -f -
@@ -66,13 +65,6 @@ type: kubernetes.io/service-account-token
 EOF
 
 
-# build new ~/.kube/config file
-# echo 
-# echo "$(tput setaf 196)Save this file to ~/.kube/config$(tput sgr0)"
-# echo
-
-
- 
 echo
 echo
 echo
