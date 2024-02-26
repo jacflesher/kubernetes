@@ -76,9 +76,9 @@ EOF
 echo
 echo
 echo
-echo "Change to user:"
+echo "Change context user:"
 echo "sudo kubectl config set-credentials \"sa-${1}\" --token \"$(kubectl get secret secret-${1} -o jsonpath={.data.token} --namespace ns-${1} | base64 -d)\""
 echo
-echo "Change namespace and user:"
-echo "sudo kubectl config set-context default --cluster default --namespace ns-${1}"
-echo "sudo kubectl config set-context minikube --cluster minikube --namespace ns-${1}"
+echo "Change context namespace:"
+echo "k3s: sudo kubectl config set-context default --cluster default --namespace ns-${1}"
+echo "minikube: sudo kubectl config set-context minikube --cluster minikube --namespace ns-${1}"
