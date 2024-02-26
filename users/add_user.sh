@@ -74,3 +74,5 @@ echo
 echo "Change context namespace:"
 echo "k3s: sudo kubectl config set-context default --cluster default --namespace ns-${1}"
 echo "minikube: sudo kubectl config set-context minikube --cluster minikube --namespace ns-${1}"
+echo
+echo
