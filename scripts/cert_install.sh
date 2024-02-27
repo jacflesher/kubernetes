@@ -1,62 +1,42 @@
 #!/bin/bash
 set +x
 
-[ $(command -v argocd-vault-plugin) ] || echo "Missing 'argocd-vault-plugin'... Exiting."
-[ $(command -v argocd-vault-plugin) ] || exit 1
+[ $(command -v yq) ] || { echo "Must have 'yq' binary installed... Aborting."; exit 1; }
+[ -z "$2" ] && { echo "Must pass CERT file path and KEY file path as ARG 1 and ARG 2, respectively... Aborting."; exit 1; }
+[ -f "$1" ] || { echo "Cert file $1 not found... Aborting."; exit 1; }
+[ -f "$2" ] || { echo "Key file $2 not found... Aborting."; exit 1; }
 
 echo "Apply cert to which namespace?"
+kubectl get namespaces | sed 1d | awk -F' ' '{print $1}'
+echo
 read -r NS
 
-export AVP_TYPE=gcpsecretmanager
-gcloud auth application-default login --no-launch-browser
-
-cat <<EOF | argocd-vault-plugin generate -
-apiVersion: traefik.io/v1alpha1
-kind: TLSStore
-metadata:
-  name: ${NS}-tlsstore
-  namespace: ${NS}
-
-spec:
-  defaultCertificate:
-    secretName: ${NS}-certificate
+yq <<EOF
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: ${NS}-certificate
+  name: ${NS}-tlsstore
   namespace: ${NS}
-
-type: Opaque
 data:
-  tls.crt: <path:projects/691569880619/secrets/flesher_app_cer#flesher_app_cer>
-  tls.key: <path:projects/691569880619/secrets/flesher_app_key#flesher_app_key>
+  tls.crt: $(base64 < "$1" | tr -d '\n')
+  tls.key: $(base64 < "$2" | tr -d '\n')
+type: kubernetes.io/tls
 EOF
-
-echo "Confirm?"
+echo
+echo "Confirm? (Y/n)"
 read -r CONFIRM
 [[ "${CONFIRM}" =~ ^(YES|Yes|yes|Y|y)$ ]] || exit 1
 
-
-cat <<EOF | argocd-vault-plugin generate - | kubectl apply -f - --server-side --force-conflicts
-apiVersion: traefik.io/v1alpha1
-kind: TLSStore
-metadata:
-  name: ${NS}-tlsstore
-  namespace: ${NS}
-
-spec:
-  defaultCertificate:
-    secretName: ${NS}-certificate
+yq <<EOF | kubectl apply -f - --server-side --force-conflicts
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: ${NS}-certificate
+  name: ${NS}-tlsstore
   namespace: ${NS}
-
-type: Opaque
 data:
-  tls.crt: <path:projects/691569880619/secrets/flesher_app_cer#flesher_app_cer>
-  tls.key: <path:projects/691569880619/secrets/flesher_app_key#flesher_app_key>
+  tls.crt: $(base64 < "$1" | tr -d '\n')
+  tls.key: $(base64 < "$2" | tr -d '\n')
+type: kubernetes.io/tls
 EOF

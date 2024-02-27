@@ -1,17 +1,15 @@
 #!/bin/bash
 set +x
 
-#[ $(command -v argocd-vault-plugin) ] || { echo "Missing 'argocd-vault-plugin'... Exiting."; exit 1; }
+[ $(command -v argocd-vault-plugin) ] || { echo "Missing 'argocd-vault-plugin'... Exiting."; exit 1; }
 
 echo "Apply cert to which namespace?"
-kubectl get namespaces | sed 1d | awk -F' ' '{print $1}'
-echo
 read -r NS
 
-# export AVP_TYPE=gcpsecretmanager
-# gcloud auth application-default login --no-launch-browser
+export AVP_TYPE=gcpsecretmanager
+gcloud auth application-default login --no-launch-browser
 
-cat <<EOF
+cat <<EOF | argocd-vault-plugin generate -
 apiVersion: traefik.io/v1alpha1
 kind: TLSStore
 metadata:
@@ -30,8 +28,8 @@ metadata:
 
 type: Opaque
 data:
-  tls.crt: $(base64 < ./flesher_app.cer | tr -d '\n')
-  tls.key: $(base64 < ./flesher_app.key | tr -d '\n')
+  tls.crt: <path:projects/691569880619/secrets/flesher_app_cer#flesher_app_cer>
+  tls.key: <path:projects/691569880619/secrets/flesher_app_key#flesher_app_key>
 EOF
 
 echo "Confirm?"
@@ -39,7 +37,7 @@ read -r CONFIRM
 [[ "${CONFIRM}" =~ ^(YES|Yes|yes|Y|y)$ ]] || exit 1
 
 
-cat <<EOF | kubectl apply -f - --server-side --force-conflicts
+cat <<EOF | argocd-vault-plugin generate - | kubectl apply -f - --server-side --force-conflicts
 apiVersion: traefik.io/v1alpha1
 kind: TLSStore
 metadata:
@@ -58,6 +56,6 @@ metadata:
 
 type: Opaque
 data:
-  tls.crt: $(base64 < ./flesher_app.cer | tr -d '\n')
-  tls.key: $(base64 ./flesher_app.key | tr -d '\n')
+  tls.crt: <path:projects/691569880619/secrets/flesher_app_cer#flesher_app_cer>
+  tls.key: <path:projects/691569880619/secrets/flesher_app_key#flesher_app_key>
 EOF

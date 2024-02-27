@@ -8,9 +8,8 @@ if [ ! "${1}" ]; then
   exit 1
 fi
 
-
-# Build rbac.yaml for new namespace, role, service account, and secret
-cat <<EOF | kubectl apply -f -
+# Build rbac.yaml and deploying new sa and ns
+cat <<EOF | kubectl apply -f - 
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -64,7 +63,27 @@ metadata:
 type: kubernetes.io/service-account-token
 EOF
 
-
+echo
+echo
+echo "apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: $(yq .clusters[].cluster.certificate-authority-data /etc/rancher/k3s/k3s.yaml)
+    server: https://192.168.0.240:6443
+  name: default
+contexts:
+- context:
+    cluster: default
+    namespace: ns-${1}
+    user: sa-${1}
+  name: default
+current-context: default
+kind: Config
+preferences: {}
+users:
+- name: sa-${1}
+  user:
+    token: $(kubectl get secret secret-${1} -o jsonpath={.data.token} --namespace ns-${1} | base64 -d)" | yq
 echo
 echo
 echo
