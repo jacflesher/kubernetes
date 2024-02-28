@@ -6,7 +6,7 @@
 ```
 export VIP=192.168.0.244
 export INTERFACE=eth0
-KVVERSION=$(curl --proxy http://internet.ford.com:83 -sL https://api.github.com/repos/kube-vip/kube-vip/releases | jq -r ".[0].name")
+KVVERSION=$(curl -sL https://api.github.com/repos/kube-vip/kube-vip/releases | jq -r ".[0].name")
 alias kube-vip="docker run --network host --rm ghcr.io/kube-vip/kube-vip:$KVVERSION"
 ```
 &nbsp;
