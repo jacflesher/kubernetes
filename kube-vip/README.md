@@ -1,7 +1,7 @@
 
 ## Static Pods
 
-### add to .bash_profile (.profile on linux)
+### add to ~/.profile on controlplane node(s)
 
 ```
 export VIP=192.168.0.244
