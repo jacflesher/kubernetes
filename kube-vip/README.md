@@ -1,6 +1,6 @@
 
 ## Static Pods
-
+&nbsp;
 ### add to ~/.profile on controlplane node(s)
 
 ```
@@ -9,7 +9,7 @@ export INTERFACE=eth0
 KVVERSION=$(curl -sL https://api.github.com/repos/kube-vip/kube-vip/releases | jq -r ".[0].name")
 alias kube-vip="docker run --network host --rm ghcr.io/kube-vip/kube-vip:$KVVERSION"
 ```
-&nbsp;
+
 ### With the inputs and alias command set, we can run the kube-vip container to generate a static Pod manifest which will be directed to a file at /etc/kubernetes/manifests/kube-vip.yaml. As such, this is assumed to run on the first control plane node.
 
 ```
@@ -29,7 +29,7 @@ kube-vip manifest pod \
 ```
 kubectl apply -f https://kube-vip.io/manifests/rbac.yaml
 ```
-&nbsp;
+
 ### Generate Manifest
 
 ```
@@ -169,7 +169,7 @@ Egress
 ```
 &nbsp;
 ## kube-vip-cloud-controller
-&nbsp;
+
 ### Download and install 
 
 ```
@@ -177,13 +177,13 @@ curl --output "kube-vip-cloud-controller.yaml" https://raw.githubusercontent.com
 
 kubectl apply -f kube-vip-cloud-controller.yaml
 ```
-&nbsp;
+
 ### Generate configmap
 
 ```
 kubectl create configmap -n kube-system kubevip --from-literal range-global=192.168.1.240-192.168.1.243
 ```
-&nbsp;
+
 ### ConfigMap scenario examples
 
 ```
@@ -198,13 +198,13 @@ data:
   cidr-finance: 192.168.0.220/29,192.168.0.230/29     # Multiple CIDR-based ranges for use in the finance Namespace
   cidr-global: 192.168.0.240/29                       # CIDR-based range which can be used in any Namespace
 ```
-&nbsp;
+
 ### Expose a service
 
 ```
 kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer --name=nginx
 ```
-&nbsp;
+
 ### Exposing a service to specific load balancer
 
 ```
