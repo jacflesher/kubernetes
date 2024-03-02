@@ -2,22 +2,18 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: www-flesher-app-ingress
+  name: www-flesher-app-jay-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /jay
 spec:
-  tls:
-  - hosts:
-    - "*.flesher.app"
-    secretName: www-flesher-app-tls
   rules:
-  - host: "*.flesher.app"
+  - host: "www.flesher.app"
     http:
       paths:
-      - path: /
+      - path: /jay
         pathType: Prefix
         backend:
           service:
-            name: www-flesher-app
+            name: www-flesher-app-jay
             port:
               number: 80

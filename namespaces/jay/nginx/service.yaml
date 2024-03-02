@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: www-flesher-app
+  name: www-flesher-app-jay
 spec:
   allocateLoadBalancerNodePorts: true
   externalTrafficPolicy: Cluster
@@ -20,7 +20,7 @@ spec:
     protocol: TCP
     targetPort: 443
   selector:
-    app: www-flesher-app
+    app: www-flesher-app-jay
   sessionAffinity: None
   type: LoadBalancer
 status:

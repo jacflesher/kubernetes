@@ -22,26 +22,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: www-flesher-app
+  name: www-flesher-app-jay
 spec:
   selector:
     matchLabels:
-      app: www-flesher-app
+      app: www-flesher-app-jay
   replicas: 1
   template:
     metadata:
       labels:
-        app: www-flesher-app
+        app: www-flesher-app-jay
     spec:
       containers:
-      - name: www-flesher-app
+      - name: www-flesher-app-jay
         image: nginx
         ports:
         - containerPort: 80
         volumeMounts:
-        - name: www-flesher-app
+        - name: www-flesher-app-jay
           mountPath: /usr/share/nginx/html
       volumes:
-      - name: www-flesher-app
+      - name: www-flesher-app-jay
         configMap:
-          name: www-flesher-app-configmap
+          name: www-flesher-app-jay-configmap

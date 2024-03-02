@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: www-flesher-app-jay
+  namespace: ns-jay
+spec:
+  rules:
+    - host: "*.flesher.app"
+      http:
+        paths:
+          - path: /jay
+            pathType: Exact
+            backend:
+              service:
+                name:  www-flesher-app-jay
+                port:
+                  number: 80
