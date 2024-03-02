@@ -1,8 +1,8 @@
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: blackbox-exporter-service
-  namespace: blackbox
+  name: www-flesher-app
 spec:
   allocateLoadBalancerNodePorts: true
   externalTrafficPolicy: Cluster
@@ -12,15 +12,15 @@ spec:
   ipFamilyPolicy: SingleStack
   ports:
   - name: http
-    port: 9115
+    port: 80
     protocol: TCP
-    targetPort: 9115
-#  - name: https
-#    port: 443
-#    protocol: TCP
-#    targetPort: 9115
+    targetPort: 80
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: 443
   selector:
-    app: blackbox-exporter
+    app: www-flesher-app
   sessionAffinity: None
   type: LoadBalancer
 status:
@@ -30,4 +30,3 @@ status:
     - ip: 192.168.0.241
     - ip: 192.168.0.242
     - ip: 192.168.0.243
-
