@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: python-build-pod
+spec:
+  volumes:
+    - name: app-source
+      configMap:
+        name: python-app-source
+    - name: app-destination
+      persistentVolumeClaim:
+        claimName: pv-claim
+  containers:
+    - name: busybox
+      image: busybox
+      command: ["/bin/sh"]
+      args:
+        - "-c"
+        - |
+          echo "Starting copy operation";
+          ls /mnt/app-source;
+          ls /mnt/app-destination;
+          cp /mnt/app-source/* /mnt/app-destination/;
+          echo "Copy operation completed";
+      volumeMounts:
+        - name: app-source
+          mountPath: /mnt/app-source
+        - name: app-destination
+          mountPath: /mnt/app-destination
