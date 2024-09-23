@@ -34,7 +34,7 @@
    - You can deploy Kube-VIP as a DaemonSet to ensure it runs on every node in your cluster.
    - Create a DaemonSet YAML file with the necessary configuration or use the provided examples from the Kube-VIP repository.
 
-  1. **Create a DaemonSet YAML Configuration**:
+     **Create a DaemonSet YAML Configuration**:
      - You will need to create a YAML configuration file that defines the DaemonSet for Kube-VIP.
   
      Here's an example configuration:
@@ -83,7 +83,7 @@
   
      Modify the `vip_interface` and `vip_address` values to match your specific network configuration. Ensure the `image` is set to the correct version of Kube-VIP that you want to use.
   
-  2. **Apply the DaemonSet to Your Cluster**:
+     **Apply the DaemonSet to Your Cluster**:
      - Use `kubectl` to apply the DaemonSet configuration to your K3s cluster:
   
        ```bash
@@ -92,7 +92,7 @@
   
      Replace `kube-vip-daemonset.yaml` with the path to your YAML file.
   
-  3. **Verify the DaemonSet Deployment**:
+     **Verify the DaemonSet Deployment**:
      - Check that the DaemonSet is created and that the Kube-VIP pods are running on each node:
   
        ```bash
@@ -101,7 +101,7 @@
   
      - You should see an entry for `kube-vip-ds`, and the `DESIRED`, `CURRENT`, and `READY` columns should show the same number of pods as you have nodes.
   
-  4. **Check Pod Status**:
+     **Check Pod Status**:
      - Verify that the Kube-VIP pods are running:
   
        ```bash
@@ -110,7 +110,7 @@
   
      - Ensure that all the pods are in the `Running` state.
   
-  5. **Test the Virtual IP**:
+     **Test the Virtual IP**:
      - Once the DaemonSet is running, test the virtual IP to ensure it's accessible and correctly routes traffic to your control plane.
 
 1. **Verify the Installation**:
