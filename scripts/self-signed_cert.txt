@@ -1,0 +1,6 @@
+# Create cert______________________________________________________________
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout linux-02.domain.com.key -out linux-02.domain.com.cer -subj "/CN=linux-02.domain.com/O=linux-02.domain.com" -addext "subjectAltName = DNS:linux-02.domain.com"
+kubectl create secret tls linux-02.domain.com --key linux-02.domain.com.key --cert linux-02.domain.com.cer
+
+CN=myapp.ford.com
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout "${CN}.key" -out "${CN}.cer" -subj "/CN=${CN}/O=${CN}" -addext "subjectAltName = DNS:${CN}" 

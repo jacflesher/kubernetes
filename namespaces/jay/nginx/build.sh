@@ -7,5 +7,5 @@ NS="ns-jay"
 kubectl create configmap www-flesher-app-jay-configmap --from-file index.html --namespace $NS
 kubectl apply -f deployment.yaml --namespace $NS
 kubectl apply -f service.yaml --namespace $NS
-#kubectl create secret tls www-flesher-app-tls --cert "$1" --key "$2" --namespace $NS
+kubectl create secret tls www-flesher-app-tls --cert "$1" --key "$2" --namespace $NS
 kubectl apply -f ingress-tls.yaml --namespace $NS

@@ -6,10 +6,12 @@ set +x
 [ -f "$1" ] || { echo "Cert file $1 not found... Aborting."; exit 1; }
 [ -f "$2" ] || { echo "Key file $2 not found... Aborting."; exit 1; }
 
-echo "Apply cert to which namespace?"
-kubectl get namespaces | sed 1d | awk -F' ' '{print $1}'
-echo
-read -r NS
+#echo "Apply cert to which namespace?"
+#kubectl get namespaces | sed 1d | awk -F' ' '{print $1}'
+#echo
+#read -r NS
+
+NS="ns-jay"
 
 yq <<EOF
 ---

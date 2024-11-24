@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubevip
+  namespace: kube-system
+data:
+  vip.yaml: |
+    vip: 192.168.0.244
+    interface: eth0
+    services:
+    - name: "Control Plane"
+      port: 6443
+      type: LoadBalancer
