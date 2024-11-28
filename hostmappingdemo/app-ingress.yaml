@@ -4,10 +4,13 @@ metadata:
   name: app-ingress
   namespace: ns-jay
   annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "acme-issuer"
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: nginx
   rules:
-    - host: app1.local
+    - host: app1.flesher.app
       http:
         paths:
           - path: /
@@ -17,7 +20,7 @@ spec:
                 name: app1
                 port:
                   number: 80
-    - host: app2.local
+    - host: app2.flesher.app
       http:
         paths:
           - path: /
@@ -27,4 +30,8 @@ spec:
                 name: app2
                 port:
                   number: 80
-
+  tls:
+  - hosts:
+    - app1.flesher.app
+    - app2.flesher.app
+    secretName: ns-jay-tlsstore
