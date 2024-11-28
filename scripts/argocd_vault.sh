@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+set +x
 
 if [ -z "$VAULT_ADDR" ]; then 
     read -r -p "Enter vault address (https://host:8200): " VAULT_ADDR
