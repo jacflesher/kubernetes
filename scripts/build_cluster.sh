@@ -8,7 +8,8 @@ fi
 	
 if [[ ! $(which k3s) ]]; then
 	echo "Installing k3s on master node..."
-	curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--disable=traefik --disable=servicelb" sh -
+	curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--disable=traefik" sh -
+	#curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--disable=traefik --disable=servicelb" sh -
 	#curl -sfL https://get.k3s.io | sh -
 else
 	echo "k3s already installed on master node..."
