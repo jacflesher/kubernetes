@@ -1,6 +1,12 @@
 # redis-cli
 
+
 ### 1. **General Redis Commands**
+
+- **`redis-cli -h <host> -p <port> -a <password>`*: Logs into the CLI
+  ```bash
+  redis-cli -h "127.0.0.1" -p "6379" -a "yourpassword"
+  ```
 
 - **`SET key value`**: Sets the value of a key.
   ```bash
