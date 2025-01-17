@@ -26,9 +26,9 @@ spec:
             - name: REDIS_PASSWORD
               value: "yourpassword"
       volumes:
-        - name: redis-data  # Define the volume with the same name
+        - name: redis-data
           persistentVolumeClaim:
-            claimName: redis-data  # This matches the PVC created earlier
+            claimName: redis-data
 ---
 apiVersion: v1
 kind: Service
