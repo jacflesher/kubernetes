@@ -8,6 +8,35 @@
   redis-cli -h "127.0.0.1" -p "6379" -a "yourpassword"
   ```
 
+- **`sudo /var/vcap/packages/redis/bin/redis-cli -h 127.0.0.1 -p 6379 -a "$(grep "requirepass" < /var/vcap/jobs/redis/config/redis.conf | awk -F' ' '{print $2}')"`*: Logs into the CLI in a Tanzu Redis Container
+  ```bash
+  sudo /var/vcap/packages/redis/bin/redis-cli -h 127.0.0.1 -p 6379 -a "$(grep "requirepass" < /var/vcap/jobs/redis/config/redis.conf | awk -F' ' '{print $2}')"
+  ```
+
+- Script to read redis instance storage usage
+  ```bash
+  #!/bin/bash
+  
+  # Run this script, or copy paste snippet below, inside redis service instance while sudo
+  
+  REDIS_PASS="xxxyyyzzz"
+  USED_MEMORY=$(
+      redis-cli -h 127.0.0.1 -p 6379 -a "$REDIS_PASS" --no-auth-warning INFO MEMORY | grep 'used_memory:' | awk -F':' '{print $2}' | tr -d '[:space:]'
+  )
+  MAX_MEMORY=$(
+      redis-cli -h 127.0.0.1 -p 6379 -a "$REDIS_PASS"  --no-auth-warning INFO MEMORY | grep 'maxmemory:' | awk -F':' '{print $2}' | tr -d '[:space:]'
+  )
+  echo; echo; echo; echo; echo;
+  echo "/////////////////////"
+  echo "///  $(tput bold)$(( USED_MEMORY * 100 / MAX_MEMORY ))%$(tput sgr0) Usage ///////"
+  echo "/////////////////////"
+  ```
+  
+  - **``**: Sets the value of a key.
+  ```bash
+  SET mykey "hello"
+  ```
+
 - **`SET key value`**: Sets the value of a key.
   ```bash
   SET mykey "hello"
