@@ -3,10 +3,20 @@
 
 ### 1. **General Redis Commands**
 
-- **`redis-cli -h <host> -p <port> -a <password>`*: Logs into the CLI
+- **Logs into the CLI**
   ```bash
   redis-cli -h "127.0.0.1" -p "6379" -a "yourpassword"
   ```
+
+- **Run a redis command without interactive login**
+  ```bash
+  redis-cli -h "127.0.0.1" -p "6379" -a "yourpassword" keys '*'
+  ```
+
+  - Issue with this is that if processing thousands of keys, it may take time and its not asynchronous so other calls have to wait. better to use SCAN since it breaks up the job into chunks automatically to avoid locking out other calls to the cache
+    ```sh
+    redis-cli -h "127.0.0.1" -p "6379" -a "yourpassword" --no-auth-warning --raw --scan --pattern '*'
+    ```
 
 - **`sudo /var/vcap/packages/redis/bin/redis-cli -h 127.0.0.1 -p 6379 -a "$(grep "requirepass" < /var/vcap/jobs/redis/config/redis.conf | awk -F' ' '{print $2}')"`*: Logs into the CLI in a Tanzu Redis Container
   ```bash
