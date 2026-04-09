@@ -294,8 +294,18 @@
   ```bash
   CONFIG SET maxmemory 100mb
   ```
-
+  
 - **`SHUTDOWN`**: Shuts down the Redis server.
   ```bash
   SHUTDOWN
+  ```
+
+### Redis Stack
+  ```sh
+  redis-cli -a LOCALDEV --raw LRANGE "history:jflesher" 0 -1 | jq .
+  127.0.0.1:6379> LRANGE "history:jflesher" 0 -1
+  127.0.0.1:6379> HGETALL "doc:minor-incident-advisory:20260403_174336:003"
+  127.0.0.1:6379> HGET "doc:minor-incident-advisory:20260403_174336:003" text
+  127.0.0.1:6379> TYPE "history:jflesher" (response: "list")
+  127.0.0.1:6379> TYPE "doc:minor-incident-advisory:..." (response: "hash")
   ```
